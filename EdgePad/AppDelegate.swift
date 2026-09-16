@@ -66,6 +66,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func handle(event: NSEvent, type: CGEventType) -> Bool {
+        if type == .scrollWheel {
+            return recognizer.hasActiveGesture // Swallow the scroll event if active
+        }
+
         if type == .mouseMoved || type == .leftMouseDragged || type == .rightMouseDragged || type == .otherMouseDragged {
             if recognizer.hasActiveGesture {
                 if let loc = recognizer.lockedCursorLocation {

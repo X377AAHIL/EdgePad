@@ -20,6 +20,7 @@ final class GestureEventTap: @unchecked Sendable {
 
         let mask: CGEventMask =
             (1 << UInt64(Self.gestureRawValue))
+            | (1 << UInt64(CGEventType.scrollWheel.rawValue))
             | (1 << UInt64(CGEventType.mouseMoved.rawValue))
             | (1 << UInt64(CGEventType.leftMouseDragged.rawValue))
             | (1 << UInt64(CGEventType.rightMouseDragged.rawValue))
