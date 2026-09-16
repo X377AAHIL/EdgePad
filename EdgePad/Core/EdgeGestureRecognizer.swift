@@ -50,6 +50,9 @@ final class EdgeGestureRecognizer {
             guard let binding = configuration.bindings[track.edge], binding.isEnabled else { continue }
             guard track.hasFired else { continue }
 
+            let activeTracksOnEdge = tracks.values.filter { $0.edge == track.edge }.count
+            guard activeTracksOnEdge >= binding.requiredTouchCount else { continue }
+
             let displacement = track.currentTravel - track.initialTravel
             let deadzone: CGFloat = 0.05
 
@@ -147,8 +150,9 @@ final class EdgeGestureRecognizer {
 
             let activeTracksOnEdge = tracks.values.filter { $0.edge == track.edge }.count
             if activeTracksOnEdge < binding.requiredTouchCount {
-                // Likewise, discard travel made before the required fingers arrive.
+                // Discard travel made before the required fingers arrive.
                 track.lastTravel = travel
+                track.initialTravel = travel // Prevent stored displacement jumps
                 tracks[key] = track
                 return
             }
