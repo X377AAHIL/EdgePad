@@ -24,7 +24,7 @@ final class EdgeGestureRecognizer {
 
     private struct Track {
         let edge: TrackpadEdge
-        let initialTravel: CGFloat
+        var initialTravel: CGFloat
         var currentTravel: CGFloat
         var lastTravel: CGFloat
         var accumulated: CGFloat = 0
