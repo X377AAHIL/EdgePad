@@ -33,8 +33,10 @@ enum TrackpadEdge: String, CaseIterable, Codable, Identifiable, Sendable {
         case .right:
             return 1 - point.x
         case .bottom:
+            if point.x < 0.15 || point.x > 0.85 { return .infinity }
             return point.y
         case .top:
+            if point.x < 0.15 || point.x > 0.85 { return .infinity }
             return 1 - point.y
         }
     }

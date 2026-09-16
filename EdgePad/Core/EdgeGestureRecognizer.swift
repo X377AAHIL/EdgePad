@@ -3,7 +3,7 @@ import AppKit
 @MainActor
 final class EdgeGestureRecognizer {
 
-    var configuration: EdgeConfiguration = .default
+    var configuration: EdgeConfiguration = AppProfilesConfiguration.default.defaultProfile
 
     var onStep: ((TrackpadEdge, Int) -> Void)?
 
@@ -36,7 +36,9 @@ final class EdgeGestureRecognizer {
 
     private func startRepeatTimer() {
         repeatTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
-            self?.handleRepeat()
+            Task { @MainActor [weak self] in
+                self?.handleRepeat()
+            }
         }
     }
 
@@ -76,8 +78,16 @@ final class EdgeGestureRecognizer {
     }
 
     func process(touches: Set<NSTouch>) {
-        let activeTouchesCount = touches.filter { $0.type == .indirect && !$0.isResting }.count
+        let activeTouchesCount = touches.filter { 
+            $0.type == .indirect && !$0.isResting && $0.phase != .ended && $0.phase != .cancelled 
+        }.count
         
+        // If no fingers are actively on the trackpad, kill all ongoing processes immediately
+        if activeTouchesCount == 0 {
+            reset()
+            return
+        }
+
         // Strictly ignore gestures with more than 2 fingers
         if activeTouchesCount > 2 {
             reset()

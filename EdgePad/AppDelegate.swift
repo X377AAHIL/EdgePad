@@ -6,9 +6,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private let recognizer = EdgeGestureRecognizer()
     private var tap: GestureEventTap?
+    private var appProfiles: AppProfilesConfiguration = .default
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        recognizer.configuration = ConfigurationStore.shared.load()
+        appProfiles = ConfigurationStore.shared.load()
+        updateActiveProfile()
         recognizer.onStep = { [weak self] edge, direction in
             self?.perform(edge: edge, direction: direction)
         }
@@ -31,15 +33,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+        NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didActivateApplicationNotification,
+            object: nil, queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.updateActiveProfile()
+            }
+        }
+
         NotificationCenter.default.addObserver(
             forName: .edgeConfigurationChanged,
             object: nil, queue: .main
         ) { [weak self] notification in
-            guard let config = notification.object as? EdgeConfiguration else { return }
-            Task { @MainActor [weak self, config] in
-                self?.recognizer.configuration = config
+            guard let profiles = notification.object as? AppProfilesConfiguration else { return }
+            Task { @MainActor [weak self, profiles] in
+                self?.appProfiles = profiles
+                self?.updateActiveProfile()
             }
         }
+    }
+
+    private func updateActiveProfile() {
+        let bundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? ""
+        let config = appProfiles.appProfiles[bundleID] ?? appProfiles.defaultProfile
+        recognizer.configuration = config
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -81,7 +99,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let touches = event.allTouches()
-        guard !touches.isEmpty else { return false }
+        guard !touches.isEmpty else {
+            return false
+        }
         recognizer.process(touches: touches)
         return false
     }
@@ -90,12 +110,32 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard let binding = recognizer.configuration.bindings[edge] else { return }
         switch binding.action {
         case .none: break
-        case .volume: SystemVolume.nudge(direction)
-        case .brightness: SystemBrightness.nudge(direction)
+        case .volume: 
+            SystemVolume.nudge(direction)
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
+        case .brightness: 
+            SystemBrightness.nudge(direction)
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
         case .keyboardBacklight: KeyboardBacklight.nudge(direction)
         case .scroll: postScroll(direction)
-        case .mediaScrub: HIDKeyPoster.post(direction > 0 ? .next : .previous)
+        case .mediaScrub: postArrowKey(direction, fast: false)
+        case .mediaScrubFast: postArrowKey(direction, fast: true)
         }
+    }
+
+    private func postArrowKey(_ direction: Int, fast: Bool) {
+        let keyCode: CGKeyCode = direction > 0 ? 124 : 123 // 124: Right, 123: Left
+        let source = CGEventSource(stateID: .hidSystemState)
+        let keyDown = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: true)
+        let keyUp = CGEvent(keyboardEventSource: source, virtualKey: keyCode, keyDown: false)
+        
+        if fast {
+            keyDown?.flags = .maskAlternate
+            keyUp?.flags = .maskAlternate
+        }
+        
+        keyDown?.post(tap: .cghidEventTap)
+        keyUp?.post(tap: .cghidEventTap)
     }
 
     private func postScroll(_ direction: Int) {

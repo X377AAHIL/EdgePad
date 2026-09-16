@@ -12,7 +12,7 @@ struct PreferencesView: View {
             }
             .frame(minWidth: 180)
 
-            if let binding = configuration.bindings[selection] {
+            if let binding = configuration.defaultProfile.bindings[selection] {
                 form(for: selection, binding: binding)
                     .frame(minWidth: 340)
             }
@@ -61,8 +61,8 @@ struct PreferencesView: View {
 
     private func bind<V>(_ edge: TrackpadEdge, _ path: WritableKeyPath<EdgeBinding, V>) -> Binding<V> {
         Binding(
-            get: { configuration.bindings[edge]![keyPath: path] },
-            set: { configuration.bindings[edge]![keyPath: path] = $0 }
+            get: { configuration.defaultProfile.bindings[edge]![keyPath: path] },
+            set: { configuration.defaultProfile.bindings[edge]![keyPath: path] = $0 }
         )
     }
 
