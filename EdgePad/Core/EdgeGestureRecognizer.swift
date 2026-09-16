@@ -75,8 +75,8 @@ final class EdgeGestureRecognizer {
     func process(touches: Set<NSTouch>) {
         let activeTouchesCount = touches.filter { $0.type == .indirect && !$0.isResting }.count
         
-        // Ignore multi-finger navigation gestures (e.g., 4-finger swipes)
-        if activeTouchesCount > 3 {
+        // Strictly ignore gestures with more than 2 fingers
+        if activeTouchesCount > 2 {
             reset()
             return
         }

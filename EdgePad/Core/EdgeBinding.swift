@@ -44,9 +44,9 @@ struct EdgeConfiguration: Codable, Equatable, Sendable {
     var bindings: [TrackpadEdge: EdgeBinding]
 
     static let `default` = EdgeConfiguration(bindings: [
-        .right: EdgeBinding(action: .volume),
-        .top: EdgeBinding(action: .brightness),
-        .left: EdgeBinding(action: .none),
-        .bottom: EdgeBinding(action: .none),
+        .right: EdgeBinding(action: .volume, requiredTouchCount: 2),
+        .top: EdgeBinding(action: .brightness, requiredTouchCount: 1),
+        .left: EdgeBinding(action: .none, requiredTouchCount: 2),
+        .bottom: EdgeBinding(action: .none, requiredTouchCount: 1),
     ])
 }
