@@ -30,7 +30,7 @@ enum EdgeAction: String, Codable, CaseIterable, Identifiable, Sendable {
 
 struct EdgeBinding: Codable, Equatable, Sendable {
     var action: EdgeAction = .none
-    var bandThickness: CGFloat = 0.05
+    var bandThickness: CGFloat = 0.08
     var stepDistance: CGFloat = 0.05
     var escapeMargin: CGFloat = 0.08
     var inverted: Bool = false

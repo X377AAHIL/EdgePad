@@ -3,7 +3,7 @@ import Foundation
 @MainActor
 final class ConfigurationStore {
     static let shared = ConfigurationStore()
-    private let key = "edgeConfiguration_v3"
+    private let key = "edgeConfiguration_v4"
 
     func load() -> EdgeConfiguration {
         guard let data = UserDefaults.standard.data(forKey: key),
