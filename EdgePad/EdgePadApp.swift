@@ -5,18 +5,28 @@ struct EdgePadApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("EdgePad", systemImage: "hand.point.up.left") {
-            Button("Settings…") {
-                NSApp.activate(ignoringOtherApps: true)
-                NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-            }
-            Divider()
-            Button("Quit EdgePad") { NSApplication.shared.terminate(nil) }
-                .keyboardShortcut("q")
+        MenuBarExtra("EdgePad", systemImage: "rectangle.inset.filled") {
+            LazyPopoverContent()
         }
+        .menuBarExtraStyle(.window)
+    }
+}
 
-        Settings {
-            PreferencesView()
+/// Lightweight wrapper that only instantiates the full PreferencesView
+/// while the popover is visible. On disappear the SwiftUI tree is torn
+/// down, freeing all view-hierarchy memory back to the OS.
+struct LazyPopoverContent: View {
+    @State private var isVisible = false
+
+    var body: some View {
+        Group {
+            if isVisible {
+                PreferencesView()
+            } else {
+                Color.clear.frame(width: 1, height: 1)
+            }
         }
+        .onAppear { isVisible = true }
+        .onDisappear { isVisible = false }
     }
 }

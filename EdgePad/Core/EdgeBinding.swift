@@ -33,6 +33,9 @@ struct EdgeBinding: Codable, Equatable, Sendable {
     var inverted: Bool = false
     var minimumDwell: TimeInterval = 0.08
     var requiredTouchCount: Int = 1
+    
+    var requiresOption: Bool = false
+    var requiresCommand: Bool = false
 
     var isEnabled: Bool { action != .none }
 }
@@ -52,13 +55,6 @@ struct AppProfilesConfiguration: Codable, Equatable, Sendable {
             .left: EdgeBinding(action: .none, requiredTouchCount: 2),
             .bottom: EdgeBinding(action: .mediaScrub, stepDistance: 0.05, requiredTouchCount: 1),
         ]),
-        appProfiles: [
-            "com.apple.QuickTimePlayerX": EdgeConfiguration(bindings: [
-                .right: EdgeBinding(action: .volume, requiredTouchCount: 2),
-                .top: EdgeBinding(action: .brightness, requiredTouchCount: 1),
-                .left: EdgeBinding(action: .none, requiredTouchCount: 2),
-                .bottom: EdgeBinding(action: .mediaScrub, stepDistance: 0.015, requiredTouchCount: 1),
-            ])
-        ]
+        appProfiles: [:]
     )
 }

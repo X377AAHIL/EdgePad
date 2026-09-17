@@ -137,6 +137,11 @@ final class EdgeGestureRecognizer {
                   let binding = configuration.bindings[track.edge],
                   binding.isEnabled
             else { return }
+            
+            // Modifier Check
+            let flags = NSEvent.modifierFlags
+            if binding.requiresOption && !flags.contains(.option) { return }
+            if binding.requiresCommand && !flags.contains(.command) { return }
 
             if track.edge.depth(of: position) > binding.bandThickness + binding.escapeMargin {
                 tracks[key] = nil

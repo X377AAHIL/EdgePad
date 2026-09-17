@@ -116,7 +116,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .brightness: 
             SystemBrightness.nudge(direction)
             NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
-        case .keyboardBacklight: KeyboardBacklight.nudge(direction)
+        case .keyboardBacklight: 
+            KeyboardBacklight.nudge(direction)
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
         case .scroll: postScroll(direction)
         case .mediaScrub: postArrowKey(direction, fast: false)
         case .mediaScrubFast: postArrowKey(direction, fast: true)
