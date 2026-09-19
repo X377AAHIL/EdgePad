@@ -1,40 +1,37 @@
 <!-- ═══════════════════════════════════════════════════════════════════════
      EdgePad — README
      Design: Dark OLED + Glassmorphism · Accent: Cyan #00CCF2
-     Typography direction: JetBrains Mono / IBM Plex Sans (dev-tool mood)
      ═══════════════════════════════════════════════════════════════════════ -->
 
 <br/>
+<br/>
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/EdgePad-00CCF2?style=for-the-badge&labelColor=0F172A&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDBDQ0YyIj48cGF0aCBkPSJNMTUgM2wtNiAxOE0yMSA5bC02IDZNOSA5bC02IDYiLz48L3N2Zz4=">
-    <img src="https://img.shields.io/badge/EdgePad-00CCF2?style=for-the-badge&labelColor=0F172A" alt="EdgePad">
-  </picture>
-</p>
+<div align="center">
 
-<h3 align="center">
-  Turn your trackpad edges into powerful system controls.
-</h3>
+# **E D G E P A D**
 
-<p align="center">
-  <sub>Slide along any edge of your MacBook trackpad to control volume, brightness, media playback, and more — no buttons, no shortcuts, just natural gestures.</sub>
-</p>
+**Turn your trackpad edges into powerful system controls.**
+
+<sub>Slide along any edge of your MacBook trackpad to control volume, brightness, media playback, and more — no buttons, no shortcuts, just natural gestures.</sub>
 
 <br/>
 
-<p align="center">
-  <a href="https://github.com/X377AAHIL/EdgePad/releases/latest"><img src="https://img.shields.io/badge/⬇_Download_DMG-00CCF2?style=for-the-badge&logoColor=white&labelColor=0F172A" alt="Download"></a>
-  &nbsp;
-  <img src="https://img.shields.io/badge/macOS_26.0+-0F172A?style=flat-square&logo=apple&logoColor=white" alt="Platform">
-  &nbsp;
-  <img src="https://img.shields.io/badge/Swift_6-F05138?style=flat-square&logo=swift&logoColor=white" alt="Swift">
-  &nbsp;
-  <img src="https://img.shields.io/github/license/X377AAHIL/EdgePad?style=flat-square&color=334155&labelColor=0F172A" alt="License">
-  &nbsp;
-  <img src="https://img.shields.io/github/actions/workflow/status/X377AAHIL/EdgePad/swift.yml?style=flat-square&label=build&labelColor=0F172A" alt="Build">
-</p>
+<a href="https://github.com/X377AAHIL/EdgePad/releases/latest"><img src="https://img.shields.io/badge/Download_DMG-00CCF2?style=for-the-badge&logoColor=white&labelColor=0F172A" alt="Download"></a>
 
+<br/>
+<br/>
+
+<img src="https://img.shields.io/badge/macOS_26.0+-0F172A?style=flat-square&logo=apple&logoColor=white" alt="Platform">
+&nbsp;
+<img src="https://img.shields.io/badge/Swift_6-F05138?style=flat-square&logo=swift&logoColor=white" alt="Swift">
+&nbsp;
+<img src="https://img.shields.io/github/license/X377AAHIL/EdgePad?style=flat-square&color=334155&labelColor=0F172A" alt="License">
+&nbsp;
+<img src="https://img.shields.io/github/actions/workflow/status/X377AAHIL/EdgePad/swift.yml?style=flat-square&label=build&labelColor=0F172A" alt="Build">
+
+</div>
+
+<br/>
 <br/>
 
 <!-- ─── APP SCREENSHOTS ─── -->
@@ -49,6 +46,10 @@
 
 <br/>
 
+---
+
+<br/>
+
 <!-- ─── FEATURES ─── -->
 
 <h2 align="center">Features</h2>
@@ -58,34 +59,38 @@
 <table align="center">
   <tr>
     <td align="center" width="280">
-      <h4>🎯&ensp;4 Edge Zones</h4>
+      <h4>4 Edge Zones</h4>
       <sub>Left · Right · Top · Bottom — each independently configurable</sub>
     </td>
     <td align="center" width="280">
-      <h4>⚡&ensp;7 Actions</h4>
+      <h4>7 Actions</h4>
       <sub>Volume · Brightness · Keyboard Backlight · Scroll · Media Scrub · Fast Scrub</sub>
     </td>
     <td align="center" width="280">
-      <h4>📳&ensp;Haptic Feedback</h4>
+      <h4>Haptic Feedback</h4>
       <sub>Tactile click on every step so you feel the change</sub>
     </td>
   </tr>
   <tr><td colspan="3">&nbsp;</td></tr>
   <tr>
     <td align="center" width="280">
-      <h4>👆&ensp;Touch Visualizer</h4>
+      <h4>Touch Visualizer</h4>
       <sub>Real-time finger tracking with edge-band overlays</sub>
     </td>
     <td align="center" width="280">
-      <h4>💎&ensp;Glassmorphic UI</h4>
+      <h4>Glassmorphic UI</h4>
       <sub>Liquid Glass on macOS 26 · frosted fallback on older systems</sub>
     </td>
     <td align="center" width="280">
-      <h4>🔲&ensp;Menu Bar Only</h4>
+      <h4>Menu Bar Only</h4>
       <sub>Zero dock clutter — lives quietly in your menu bar</sub>
     </td>
   </tr>
 </table>
+
+<br/>
+
+---
 
 <br/>
 
@@ -99,25 +104,29 @@
 
 <div align="center">
 
-| | Action | What It Does | Direction |
-|:-:|:------:|:------------:|:---------:|
-| 🔊 | **Volume** | System audio up / down | ↕ vertical |
-| 🔆 | **Brightness** | Display brightness up / down | ↔ horizontal |
-| ⌨️ | **Keyboard Backlight** | Backlight intensity up / down | ↕ or ↔ |
-| 📜 | **Scroll** | Scroll content in any app | ↕ vertical |
-| ⏩ | **Media Scrub** | Skip forward / backward | ↔ horizontal |
-| ⏭️ | **Media Scrub (Fast)** | Jump with ⌥+Arrow | ↔ horizontal |
+| Action | What It Does | Direction |
+|:------:|:------------:|:---------:|
+| **Volume** | System audio up / down | Vertical |
+| **Brightness** | Display brightness up / down | Horizontal |
+| **Keyboard Backlight** | Backlight intensity up / down | Either |
+| **Scroll** | Scroll content in any app | Vertical |
+| **Media Scrub** | Skip forward / backward | Horizontal |
+| **Media Scrub (Fast)** | Jump with Option + Arrow | Horizontal |
 
 </div>
 
 <br/>
 
+---
+
+<br/>
+
 <!-- ─── TIP ─── -->
 
-<h2 align="center">💡 Tip · Avoid Accidental Palm Triggers</h2>
+<h2 align="center">Avoid Accidental Palm Triggers</h2>
 
 <p align="center">
-  <sub>If gestures fire while you're typing because your palm rests on the trackpad:</sub>
+  <sub>If gestures fire while typing because your palm rests on the trackpad:</sub>
 </p>
 
 <br/>
@@ -126,14 +135,18 @@
 
 | Fix | How |
 |:---:|:---:|
-| 👆👆&ensp;**Use 2-finger mode** | Set **Fingers → 2** · a resting palm won't trigger it |
-| ⌥&ensp;**Add a modifier key** | Enable **⌥ Option** or **⌘ Command** · gestures only fire while the key is held |
+| **Use 2-finger mode** | Set **Fingers** to **2** — a resting palm won't trigger it |
+| **Add a modifier key** | Enable **Option** or **Command** — gestures only fire while the key is held |
 
 </div>
 
 <p align="center">
   <sub>Both options are per-edge — mix and match depending on which edge you use most.</sub>
 </p>
+
+<br/>
+
+---
 
 <br/>
 
@@ -145,13 +158,13 @@
 
 <div align="center">
 
-**[⬇️&ensp;Download EdgePad.dmg](https://github.com/X377AAHIL/EdgePad/releases/latest)**
+**[Download EdgePad.dmg](https://github.com/X377AAHIL/EdgePad/releases/latest)**
 
 </div>
 
 ```
 1 · Open the DMG
-2 · Drag EdgePad → Applications
+2 · Drag EdgePad into Applications
 3 · Launch from Applications
 4 · Grant Accessibility when prompted
 ```
@@ -169,6 +182,10 @@ xcodebuild -project EdgePad.xcodeproj -scheme EdgePad -configuration Release bui
 
 <br/>
 
+---
+
+<br/>
+
 <!-- ─── PERMISSIONS ─── -->
 
 <h2 align="center">Permissions</h2>
@@ -180,12 +197,12 @@ xcodebuild -project EdgePad.xcodeproj -scheme EdgePad -configuration Release bui
 <table align="center">
   <tr>
     <td align="center" width="400">
-      <h4>🛡️&ensp;Accessibility</h4>
+      <h4>Accessibility</h4>
       <code>System Settings → Privacy & Security → Accessibility</code><br/><br/>
       <b>Required</b> — enables system-wide gesture detection
     </td>
     <td align="center" width="400">
-      <h4>🖱️&ensp;Input Monitoring</h4>
+      <h4>Input Monitoring</h4>
       <code>System Settings → Privacy & Security → Input Monitoring</code><br/><br/>
       <b>If needed</b> — add EdgePad here if gestures don't register
     </td>
@@ -193,13 +210,12 @@ xcodebuild -project EdgePad.xcodeproj -scheme EdgePad -configuration Release bui
 </table>
 
 <br/>
-
-<!-- ─── FOOTER ─── -->
+<br/>
 
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/X377AAHIL"><b>Aahil Shaarav G</b></a>
+  Made with care by <a href="https://github.com/X377AAHIL"><b>Aahil Shaarav G</b></a>
 </p>
 <p align="center">
   <sub>© 2026 Aahil Shaarav G · All rights reserved</sub>
