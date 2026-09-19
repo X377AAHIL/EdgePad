@@ -198,8 +198,16 @@ final class EdgeGestureRecognizer {
             guard let binding = configuration.bindings[edge],
                   binding.isEnabled
             else { continue }
+            
             let d = edge.depth(of: p)
-            guard d <= binding.bandThickness else { continue }
+            let isActiveEdge = tracks.values.contains { $0.edge == edge }
+            
+            // If this edge is already active with another finger, allow the new finger
+            // to be within the escape margin (useful for 2-finger side-by-side gestures on left/right edges).
+            let effectiveThickness = isActiveEdge ? (binding.bandThickness + binding.escapeMargin) : binding.bandThickness
+            
+            guard d <= effectiveThickness else { continue }
+            
             if best == nil || d < best!.depth {
                 best = (edge, d)
             }
