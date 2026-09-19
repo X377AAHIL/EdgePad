@@ -11,7 +11,7 @@
 <img src="assets/app-icon.png" width="128" />
 <br/><br/>
 
-# **E D G E P A D**
+<h1><big><big><strong>E D G E P A D</strong></big></big></h1>
 
 **Turn your trackpad edges into powerful system controls.**
 
