@@ -59,14 +59,17 @@
 <table align="center">
   <tr>
     <td align="center" width="280">
+      <img src="assets/feature-edges.jpg" width="120" style="border-radius:24px"/><br/><br/>
       <h4>4 Edge Zones</h4>
       <sub>Left · Right · Top · Bottom — each independently configurable</sub>
     </td>
     <td align="center" width="280">
+      <img src="assets/feature-actions.jpg" width="120" style="border-radius:24px"/><br/><br/>
       <h4>7 Actions</h4>
       <sub>Volume · Brightness · Keyboard Backlight · Scroll · Media Scrub · Fast Scrub</sub>
     </td>
     <td align="center" width="280">
+      <img src="assets/feature-haptic.jpg" width="120" style="border-radius:24px"/><br/><br/>
       <h4>Haptic Feedback</h4>
       <sub>Tactile click on every step so you feel the change</sub>
     </td>
@@ -74,14 +77,17 @@
   <tr><td colspan="3">&nbsp;</td></tr>
   <tr>
     <td align="center" width="280">
+      <img src="assets/feature-visualizer.jpg" width="120" style="border-radius:24px"/><br/><br/>
       <h4>Touch Visualizer</h4>
       <sub>Real-time finger tracking with edge-band overlays</sub>
     </td>
     <td align="center" width="280">
+      <img src="assets/feature-glass.jpg" width="120" style="border-radius:24px"/><br/><br/>
       <h4>Glassmorphic UI</h4>
       <sub>Liquid Glass on macOS 26 · frosted fallback on older systems</sub>
     </td>
     <td align="center" width="280">
+      <img src="assets/feature-menubar.jpg" width="120" style="border-radius:24px"/><br/><br/>
       <h4>Menu Bar Only</h4>
       <sub>Zero dock clutter — lives quietly in your menu bar</sub>
     </td>
