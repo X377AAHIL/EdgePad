@@ -52,7 +52,7 @@
 
 <!-- ─── FEATURES ─── -->
 
-<h2 align="center">Features</h2>
+<h2 align="center"><kbd>&nbsp;Features&nbsp;</kbd></h2>
 
 <br/>
 
@@ -96,7 +96,7 @@
 
 <!-- ─── ACTIONS ─── -->
 
-<h2 align="center">Actions</h2>
+<h2 align="center"><kbd>&nbsp;Actions&nbsp;</kbd></h2>
 
 <p align="center"><sub>Each trackpad edge can be assigned any of these:</sub></p>
 
@@ -123,7 +123,7 @@
 
 <!-- ─── TIP ─── -->
 
-<h2 align="center">Avoid Accidental Palm Triggers</h2>
+<h2 align="center"><kbd>&nbsp;Avoid Accidental Palm Triggers&nbsp;</kbd></h2>
 
 <p align="center">
   <sub>If gestures fire while typing because your palm rests on the trackpad:</sub>
@@ -135,7 +135,7 @@
 
 | Fix | How |
 |:---:|:---:|
-| **Use 2-finger mode** | Set **Fingers** to **2** — a resting palm won't trigger it |
+| 👆👆 **Use 2-finger mode** | Set **Fingers** to **2** — a resting palm won't trigger it |
 | **Add a modifier key** | Enable **Option** or **Command** — gestures only fire while the key is held |
 
 </div>
@@ -152,7 +152,7 @@
 
 <!-- ─── INSTALL ─── -->
 
-<h2 align="center">Installation</h2>
+<h2 align="center"><kbd>&nbsp;Installation&nbsp;</kbd></h2>
 
 <br/>
 
@@ -188,7 +188,7 @@ xcodebuild -project EdgePad.xcodeproj -scheme EdgePad -configuration Release bui
 
 <!-- ─── PERMISSIONS ─── -->
 
-<h2 align="center">Permissions</h2>
+<h2 align="center"><kbd>&nbsp;Permissions&nbsp;</kbd></h2>
 
 <p align="center"><sub>EdgePad reads raw trackpad touches, which macOS treats as privileged input.</sub></p>
 
