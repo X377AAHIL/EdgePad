@@ -22,3 +22,5 @@ build.log
 # Agent files
 .agents/
 skills-lock.json
+.build/
+EdgePad/.build/

@@ -1,7 +1,0 @@
-Target dependency graph (3 targets)
-Target 'AllExcludingTests' in project 'Aggregate'
-➜ Explicit dependency on target 'EdgePad-product' in project 'EdgePad'
-➜ Explicit dependency on target 'EdgePad_EdgePad' in project 'EdgePad'
-Target 'EdgePad-product' in project 'EdgePad'
-➜ Explicit dependency on target 'EdgePad_EdgePad' in project 'EdgePad'
-Target 'EdgePad_EdgePad' in project 'EdgePad' (no dependencies)
