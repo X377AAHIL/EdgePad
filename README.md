@@ -8,6 +8,9 @@
 
 <div align="center">
 
+<img src="assets/app-icon.jpg" width="128" style="border-radius:32px;"/>
+<br/><br/>
+
 # **E D G E P A D**
 
 **Turn your trackpad edges into powerful system controls.**
