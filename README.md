@@ -8,7 +8,7 @@
 
 <div align="center">
 
-<img src="assets/app-icon.jpg" width="128" style="border-radius:32px;"/>
+<img src="assets/app-icon.png" width="128" />
 <br/><br/>
 
 # **E D G E P A D**
