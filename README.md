@@ -106,6 +106,19 @@ Each trackpad edge can be assigned one of these actions:
 
 ---
 
+## 💡 Tip: Avoid Accidental Gestures While Typing
+
+> **Palm resting on the trackpad triggering gestures while you type?**
+>
+> | Solution | How |
+> |:--------:|:---:|
+> | 👆👆 **Switch to 2-finger mode** | Set **Fingers** to `2` — your resting palm won't trigger it |
+> | ⌥ **Add a modifier key** | Enable **⌥ Option** or **⌘ Command** — gestures only fire while the key is held |
+>
+> Both options are per-edge, so you can mix and match depending on how you use each edge.
+
+---
+
 ## 🔐 Permissions
 
 EdgePad needs two macOS permissions to read trackpad input:
