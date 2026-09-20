@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "nav.png",
+      "filename" : "nav16.png",
       "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "nav32 1.png",
+      "filename" : "nav32.png",
       "idiom" : "mac",
       "scale" : "2x"
     }

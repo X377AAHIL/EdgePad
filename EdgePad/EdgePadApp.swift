@@ -5,7 +5,7 @@ struct EdgePadApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("EdgePad", systemImage: "rectangle.inset.filled") {
+        MenuBarExtra("EdgePad", image: "MenuBarIcon") {
             LazyPopoverContent()
         }
         .menuBarExtraStyle(.window)
