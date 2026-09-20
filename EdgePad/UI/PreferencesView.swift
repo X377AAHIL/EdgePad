@@ -1,9 +1,11 @@
 import SwiftUI
+import ServiceManagement
 
 struct PreferencesView: View {
     @State private var configuration: AppProfilesConfiguration = .default
     @State private var selectedEdge: TrackpadEdge?
     @State private var selectedProfile: String = "Global Default"
+    @State private var launchAtLogin: Bool = SMAppService.mainApp.status == .enabled
 
     private var activeConfig: EdgeConfiguration {
         if selectedProfile == "Global Default" {
@@ -54,8 +56,28 @@ struct PreferencesView: View {
                 TrackpadVisualizerView(configuration: activeConfig, selectedEdge: edge)
                     .padding(.horizontal, 16)
                 
-                // Quit button
+                // Footer: Launch at Login and Quit button
                 HStack {
+                    Toggle("Launch at Login", isOn: $launchAtLogin)
+                        .toggleStyle(.switch)
+                        .controlSize(.mini)
+                        .font(.system(size: 11, weight: .medium, design: .rounded))
+                        .foregroundStyle(GlassColors.textSecondary)
+                        .onChange(of: launchAtLogin) { _, newValue in
+                            do {
+                                if newValue {
+                                    try SMAppService.mainApp.register()
+                                } else {
+                                    try SMAppService.mainApp.unregister()
+                                }
+                            } catch {
+                                print("Failed to update Launch at login: \(error)")
+                                launchAtLogin = SMAppService.mainApp.status == .enabled
+                            }
+                        }
+
+                    Spacer()
+
                     Button {
                         NSApplication.shared.terminate(nil)
                     } label: {
@@ -75,7 +97,6 @@ struct PreferencesView: View {
                         .contentShape(Capsule())
                     }
                     .buttonStyle(.plain)
-                    Spacer()
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 12)

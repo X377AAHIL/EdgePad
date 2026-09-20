@@ -7,8 +7,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let recognizer = EdgeGestureRecognizer()
     private var tap: GestureEventTap?
     private var appProfiles: AppProfilesConfiguration = .default
+    private var activityToken: NSObjectProtocol?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        activityToken = ProcessInfo.processInfo.beginActivity(
+            options: [.userInitiated, .latencyCritical],
+            reason: "Trackpad Gesture Monitoring"
+        )
+        
         appProfiles = ConfigurationStore.shared.load()
         updateActiveProfile()
         recognizer.onStep = { [weak self] edge, direction in
@@ -62,6 +68,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         tap?.stop()
+        if let token = activityToken {
+            ProcessInfo.processInfo.endActivity(token)
+        }
     }
 
     private func startTap() {
