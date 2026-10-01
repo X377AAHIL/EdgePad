@@ -14,6 +14,14 @@ final class GestureEventTap: @unchecked Sendable {
         self.handler = handler
     }
 
+    /// Whether the underlying CGEvent tap is currently enabled.
+    /// macOS can disable taps via `tapDisabledByTimeout` or `tapDisabledByUserInput`.
+    var isEnabled: Bool {
+        guard let port = machPort else { return false }
+        return CGEvent.tapIsEnabled(tap: port)
+    }
+
+
     @discardableResult
     func start() -> Bool {
         guard machPort == nil else { return true }

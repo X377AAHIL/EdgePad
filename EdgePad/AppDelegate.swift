@@ -1,5 +1,6 @@
 import Cocoa
 import SwiftUI
+import os.log
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -8,11 +9,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var tap: GestureEventTap?
     private var appProfiles: AppProfilesConfiguration = .default
     private var activityToken: NSObjectProtocol?
+    private var heartbeatTimer: Timer?
+    private let log = Logger(subsystem: "com.aahilshaaravg.EdgePad", category: "Background")
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Use .userInitiatedAllowingIdleSystemSleep to prevent App Nap from
+        // suspending the process while still allowing the display to sleep.
+        // This is critical for a menu-bar utility that must monitor trackpad
+        // events indefinitely.
         activityToken = ProcessInfo.processInfo.beginActivity(
-            options: [.userInitiated, .latencyCritical],
-            reason: "Trackpad Gesture Monitoring"
+            options: [.userInitiatedAllowingIdleSystemSleep, .latencyCritical],
+            reason: "EdgePad must remain active to monitor trackpad edge gestures"
         )
         
         appProfiles = ConfigurationStore.shared.load()
@@ -35,6 +42,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             object: nil, queue: .main
         ) { [weak self] _ in
             Task { @MainActor [weak self] in
+                self?.log.info("System woke from sleep – restarting event tap")
+                self?.restartTapIfNeeded()
+            }
+        }
+
+        // Screen lock/unlock can also silently break the event tap
+        DistributedNotificationCenter.default().addObserver(
+            forName: .init("com.apple.screenIsLocked"),
+            object: nil, queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.log.info("Screen locked")
+            }
+        }
+
+        DistributedNotificationCenter.default().addObserver(
+            forName: .init("com.apple.screenIsUnlocked"),
+            object: nil, queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.log.info("Screen unlocked – restarting event tap")
                 self?.restartTapIfNeeded()
             }
         }
@@ -58,6 +86,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.updateActiveProfile()
             }
         }
+
+        // Heartbeat: periodically verify the event tap is still alive.
+        // macOS can silently disable taps after long idle periods.
+        startHeartbeat()
     }
 
     private func updateActiveProfile() {
@@ -67,6 +99,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        heartbeatTimer?.invalidate()
+        heartbeatTimer = nil
         tap?.stop()
         if let token = activityToken {
             ProcessInfo.processInfo.endActivity(token)
@@ -90,6 +124,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         tap = nil
         recognizer.reset()
         startTap()
+    }
+
+    // MARK: - Heartbeat
+
+    /// Periodically checks that the event tap is still enabled.
+    /// If macOS silently disabled it (e.g. tapDisabledByTimeout that
+    /// the CGEvent callback didn't catch), we restart it.
+    private func startHeartbeat() {
+        heartbeatTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.verifyTapAlive()
+            }
+        }
+    }
+
+    private func verifyTapAlive() {
+        guard let tap else {
+            // No tap at all – maybe permissions weren't granted yet
+            if PermissionChecker.hasAccessibility {
+                log.warning("Event tap was nil – attempting restart")
+                startTap()
+            }
+            return
+        }
+        if !tap.isEnabled {
+            log.warning("Event tap was disabled by system – restarting")
+            restartTapIfNeeded()
+        }
     }
 
     private func handle(event: NSEvent, type: CGEventType) -> Bool {
