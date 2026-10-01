@@ -186,6 +186,44 @@ xcodebuild -project EdgePad.xcodeproj -scheme EdgePad -configuration Release bui
 
 <br/>
 
+<!-- ─── UNINSTALL ─── -->
+
+<h2 align="center"><kbd>&nbsp;Uninstallation&nbsp;</kbd></h2>
+
+<p align="center"><sub>macOS does not automatically clean up app data when you drag an app to the Trash.</sub></p>
+
+<br/>
+
+<h3 align="center">Option 1: In-App Uninstaller</h3>
+<div align="center">
+Click the EdgePad menu bar icon, hold <code>Option (⌥)</code>, and select <b>Uninstall EdgePad...</b>
+<br/><sub>This will completely remove all preferences, login items, permissions, and delete the app.</sub>
+</div>
+
+<br/>
+
+<h3 align="center">Option 2: Homebrew</h3>
+<div align="center">
+If you installed via Homebrew, simply run:
+
+```bash
+brew uninstall --cask edgepad
+```
+</div>
+
+<br/>
+
+<h3 align="center">Option 3: Manual (Trash)</h3>
+<div align="center">
+If you prefer dragging the app to the Trash, we highly recommend using a cleaner utility like <b><a href="https://github.com/alienator88/Pearcleaner">Pearcleaner</a></b> or <b><a href="https://freemacsoft.net/appcleaner/">AppCleaner</a></b> to ensure all leftover preferences and login items are properly removed from your system.
+</div>
+
+<br/>
+
+---
+
+<br/>
+
 <!-- ─── PERMISSIONS ─── -->
 
 <h2 align="center"><kbd>&nbsp;Permissions&nbsp;</kbd></h2>

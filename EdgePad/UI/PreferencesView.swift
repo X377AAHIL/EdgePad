@@ -79,6 +79,16 @@ struct PreferencesView: View {
                     Spacer()
 
                     Button {
+                        uninstallApp()
+                    } label: {
+                        Text("Uninstall...")
+                            .font(.system(size: 11, weight: .medium, design: .rounded))
+                            .foregroundStyle(.red.opacity(0.8))
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.trailing, 8)
+
+                    Button {
                         NSApplication.shared.terminate(nil)
                     } label: {
                         HStack(spacing: 4) {
@@ -136,6 +146,55 @@ struct PreferencesView: View {
                         set: { configuration.appProfiles[selectedProfile]!.bindings[edge] = $0 }
                     )
                 )
+            }
+        }
+    }
+
+    // MARK: - Uninstallation Logic
+    
+    private func uninstallApp() {
+        let alert = NSAlert()
+        alert.messageText = "Uninstall EdgePad?"
+        alert.informativeText = "This will permanently remove all preferences, login items, system permissions, and move the app to the Trash. The application will quit immediately."
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Uninstall")
+        alert.addButton(withTitle: "Cancel")
+        
+        // Show the modal explicitly
+        NSApp.activate(ignoringOtherApps: true)
+        if alert.runModal() == .alertFirstButtonReturn {
+            
+            // 1. Unregister login item
+            try? SMAppService.mainApp.unregister()
+            
+            // 2. Reset permissions
+            let resetAccessibility = Process()
+            resetAccessibility.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
+            resetAccessibility.arguments = ["reset", "Accessibility", "com.aahilshaaravg.EdgePad"]
+            try? resetAccessibility.run()
+            
+            let resetListenEvent = Process()
+            resetListenEvent.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
+            resetListenEvent.arguments = ["reset", "ListenEvent", "com.aahilshaaravg.EdgePad"]
+            try? resetListenEvent.run()
+            
+            // 3. Remove preferences and app support
+            let fm = FileManager.default
+            if let prefsURL = fm.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("Preferences/com.aahilshaaravg.EdgePad.plist") {
+                try? fm.removeItem(at: prefsURL)
+            }
+            if let supportURL = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("EdgePad") {
+                try? fm.removeItem(at: supportURL)
+            }
+            
+            // 4. Move app to trash and quit
+            let appURL = Bundle.main.bundleURL
+            NSWorkspace.shared.recycle([appURL]) { _, _ in
+                NSApplication.shared.terminate(nil)
+            }
+            // Fallback quit if recycle takes too long
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                NSApplication.shared.terminate(nil)
             }
         }
     }
