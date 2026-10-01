@@ -188,14 +188,15 @@ struct PreferencesView: View {
             }
             
             // 4. Move app to trash and quit
-            let appURL = Bundle.main.bundleURL
-            NSWorkspace.shared.recycle([appURL]) { _, _ in
-                NSApplication.shared.terminate(nil)
-            }
-            // Fallback quit if recycle takes too long
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                NSApplication.shared.terminate(nil)
-            }
+            let appPath = Bundle.main.bundlePath
+            let script = "sleep 1 && osascript -e 'tell application \"Finder\" to delete POSIX file \"\(appPath)\"'"
+            
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/bin/bash")
+            process.arguments = ["-c", script]
+            try? process.run()
+            
+            NSApplication.shared.terminate(nil)
         }
     }
 }
