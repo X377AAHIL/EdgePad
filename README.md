@@ -138,6 +138,20 @@
 
 <br/>
 
+<h3 align="center">Homebrew (Recommended)</h3>
+
+<div align="center">
+
+```bash
+brew install --cask X377AAHIL/edgepad/edgepad
+```
+
+</div>
+
+<br/>
+
+<h3 align="center">Manual (DMG)</h3>
+
 <div align="center">
 
 **[Download EdgePad.dmg](https://github.com/X377AAHIL/EdgePad/releases/latest)**
@@ -147,9 +161,13 @@
 ```
 1 · Open the DMG
 2 · Drag EdgePad into Applications
-3 · Launch from Applications
-4 · Grant Accessibility when prompted
+3 · Open Terminal and run:  xattr -cr /Applications/EdgePad.app
+4 · Launch from Applications
+5 · Grant Accessibility when prompted
 ```
+
+> **Note:** Step 3 is required because EdgePad is not notarized.
+> Homebrew handles this automatically — use the Homebrew method above for the smoothest experience.
 
 <details>
 <summary><b>Build from source</b></summary>
