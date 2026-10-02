@@ -105,7 +105,17 @@ final class EdgeGestureRecognizer {
 
             handle(touch)
         }
-        hasActiveGesture = !tracks.isEmpty
+        
+        hasActiveGesture = tracks.values.contains { track in
+            guard let binding = configuration.bindings[track.edge], binding.isEnabled else { return false }
+            
+            let flags = NSEvent.modifierFlags
+            if binding.requiresOption && !flags.contains(.option) { return false }
+            if binding.requiresCommand && !flags.contains(.command) { return false }
+            
+            let activeTracksOnEdge = tracks.values.filter { $0.edge == track.edge }.count
+            return activeTracksOnEdge >= binding.requiredTouchCount
+        }
     }
 
     func reset() {
