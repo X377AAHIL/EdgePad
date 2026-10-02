@@ -18,7 +18,7 @@
 <br/>
 
 <a href="https://github.com/X377AAHIL/EdgePad/releases/latest">
-  <img src="https://img.shields.io/badge/DOWNLOAD%20EDGEPAD-00CCF2?style=for-the-badge&logoColor=white" alt="Download EdgePad">
+  <img src="https://img.shields.io/badge/DOWNLOAD%20EDGEPAD-00CCF2?style=flat&logoColor=white" alt="Download EdgePad" height="40">
 </a>
 
 <br/><br/>
