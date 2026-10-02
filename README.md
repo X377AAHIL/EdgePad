@@ -84,6 +84,14 @@ Assign any of these actions to any edge.
 
 <br/>
 
+> **💡 Pro Tip: Comfortable 2-Finger Gestures**
+> 
+> When using 2-finger mode, you don't need to place your fingers side-by-side (which can strain your wrist). Instead, try placing one finger behind the other for a more natural, effortless swipe!
+> - Just ensure both fingers are inside the edge's hitbox.
+> - If the gesture isn't responding, try increasing the **Edge Width** in settings to give yourself more room.
+
+<br/>
+
 ## 📦 Installation
 
 ### Option A: Homebrew (Recommended)
