@@ -81,12 +81,23 @@ struct PreferencesView: View {
                     Button {
                         uninstallApp()
                     } label: {
-                        Text("Uninstall...")
-                            .font(.system(size: 11, weight: .medium, design: .rounded))
-                            .foregroundStyle(.red.opacity(0.8))
+                        HStack(spacing: 4) {
+                            Image(systemName: "trash")
+                                .font(.system(size: 10, weight: .medium))
+                            Text("Uninstall")
+                                .font(.system(size: 11, weight: .medium, design: .rounded))
+                        }
+                        .foregroundStyle(.red.opacity(0.9))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(
+                            Capsule()
+                                .fill(Color.red.opacity(0.15))
+                        )
+                        .contentShape(Capsule())
                     }
                     .buttonStyle(.plain)
-                    .padding(.trailing, 8)
+                    .padding(.trailing, 4)
 
                     Button {
                         NSApplication.shared.terminate(nil)
