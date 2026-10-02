@@ -3,6 +3,10 @@ import SwiftUI
 struct EdgeSettingsCard: View {
     let edge: TrackpadEdge
     @Binding var binding: EdgeBinding
+    
+    private var defaultBinding: EdgeBinding {
+        AppProfilesConfiguration.default.defaultProfile.bindings[edge] ?? EdgeBinding()
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -118,9 +122,23 @@ struct EdgeSettingsCard: View {
                         .font(.system(size: 11, design: .rounded))
                         .foregroundStyle(GlassColors.textSecondary)
                     Spacer()
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            binding.stepDistance = defaultBinding.stepDistance
+                        }
+                    } label: {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(binding.stepDistance == defaultBinding.stepDistance ? Color.white.opacity(0.1) : GlassColors.textSecondary)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(binding.stepDistance == defaultBinding.stepDistance)
+                    .padding(.trailing, 2)
+                    
                     Text(String(format: "%.3f", binding.stepDistance))
                         .font(.system(size: 10, design: .monospaced))
                         .foregroundStyle(GlassColors.accentCyan.opacity(0.7))
+                        .frame(width: 40, alignment: .trailing)
                 }
                 Slider(value: $binding.stepDistance, in: 0.01...0.20)
                     .tint(GlassColors.accentCyan)
@@ -133,9 +151,23 @@ struct EdgeSettingsCard: View {
                         .font(.system(size: 11, design: .rounded))
                         .foregroundStyle(GlassColors.textSecondary)
                     Spacer()
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            binding.bandThickness = defaultBinding.bandThickness
+                        }
+                    } label: {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(binding.bandThickness == defaultBinding.bandThickness ? Color.white.opacity(0.1) : GlassColors.textSecondary)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(binding.bandThickness == defaultBinding.bandThickness)
+                    .padding(.trailing, 2)
+                    
                     Text("\(Int(binding.bandThickness * 100))%")
                         .font(.system(size: 10, design: .monospaced))
                         .foregroundStyle(GlassColors.accentCyan.opacity(0.7))
+                        .frame(width: 40, alignment: .trailing)
                 }
                 Slider(value: $binding.bandThickness, in: 0.02...0.35)
                     .tint(GlassColors.accentCyan)
@@ -148,9 +180,23 @@ struct EdgeSettingsCard: View {
                         .font(.system(size: 11, design: .rounded))
                         .foregroundStyle(GlassColors.textSecondary)
                     Spacer()
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            binding.minimumDwell = defaultBinding.minimumDwell
+                        }
+                    } label: {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(binding.minimumDwell == defaultBinding.minimumDwell ? Color.white.opacity(0.1) : GlassColors.textSecondary)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(binding.minimumDwell == defaultBinding.minimumDwell)
+                    .padding(.trailing, 2)
+                    
                     Text("\(Int(binding.minimumDwell * 1000)) ms")
                         .font(.system(size: 10, design: .monospaced))
                         .foregroundStyle(GlassColors.accentCyan.opacity(0.7))
+                        .frame(width: 40, alignment: .trailing)
                 }
                 Slider(value: $binding.minimumDwell, in: 0...0.5)
                     .tint(GlassColors.accentCyan)
