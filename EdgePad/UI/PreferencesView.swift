@@ -58,23 +58,46 @@ struct PreferencesView: View {
                 
                 // Footer: Launch at Login and Quit button
                 HStack {
-                    Toggle("Launch at Login", isOn: $launchAtLogin)
-                        .toggleStyle(.switch)
-                        .controlSize(.mini)
-                        .font(.system(size: 11, weight: .medium, design: .rounded))
-                        .foregroundStyle(GlassColors.textSecondary)
-                        .onChange(of: launchAtLogin) { _, newValue in
-                            do {
-                                if newValue {
-                                    try SMAppService.mainApp.register()
-                                } else {
-                                    try SMAppService.mainApp.unregister()
-                                }
-                            } catch {
-                                print("Failed to update Launch at login: \(error)")
-                                launchAtLogin = SMAppService.mainApp.status == .enabled
-                            }
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            launchAtLogin.toggle()
                         }
+                    } label: {
+                        ZStack {
+                            Capsule()
+                                .fill(launchAtLogin ? Color.accentColor.opacity(0.8) : Color.white.opacity(0.06))
+                                .frame(width: 110, height: 22)
+                            
+                            Text("Launch at Login")
+                                .font(.system(size: 10, weight: launchAtLogin ? .semibold : .medium, design: .rounded))
+                                .foregroundStyle(launchAtLogin ? .white : GlassColors.textSecondary)
+                                .offset(x: launchAtLogin ? -10 : 10)
+                            
+                            HStack(spacing: 0) {
+                                if launchAtLogin { Spacer(minLength: 0) }
+                                Circle()
+                                    .fill(launchAtLogin ? Color.white : Color.white.opacity(0.5))
+                                    .padding(3)
+                                    .frame(width: 22, height: 22)
+                                if !launchAtLogin { Spacer(minLength: 0) }
+                            }
+                            .frame(width: 110, height: 22)
+                        }
+                        .contentShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .onChange(of: launchAtLogin) { _, newValue in
+                        do {
+                            if newValue {
+                                try SMAppService.mainApp.register()
+                            } else {
+                                try SMAppService.mainApp.unregister()
+                            }
+                        } catch {
+                            print("Failed to update Launch at login: \(error)")
+                            launchAtLogin = SMAppService.mainApp.status == .enabled
+                        }
+                    }
 
                     Spacer()
 
