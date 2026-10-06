@@ -76,6 +76,8 @@ struct TrackpadVisualizerView: View {
             // 3. Selected edge glow border (drawn on top for polish)
             if let edge = selectedEdge {
                 selectedEdgeGlow(edge)
+                    .id(edge)
+                    .transition(.opacity)
             }
 
             // 4. Clickable Interaction Zones
