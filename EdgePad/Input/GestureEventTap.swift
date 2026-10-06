@@ -6,6 +6,11 @@ final class GestureEventTap: @unchecked Sendable {
 
     private static let gestureRawValue: UInt32 = 29
 
+    /// Set by the owner to indicate whether an edge gesture is in progress.
+    /// When `false`, mouse-move/drag/scroll events are short-circuited at
+    /// the CGEvent level, avoiding the cost of NSEvent bridging.
+    var isGestureActive = false
+
     private var machPort: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
     private let handler: Handler
@@ -74,6 +79,19 @@ final class GestureEventTap: @unchecked Sendable {
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
             if let port = machPort { CGEvent.tapEnable(tap: port, enable: true) }
             return Unmanaged.passUnretained(event)
+        }
+
+        // Short-circuit mouse-move/drag/scroll events when no gesture is active.
+        // This avoids the cost of NSEvent bridging for events EdgePad will just
+        // pass through, eliminating hundreds of unnecessary wakeups per second.
+        if !isGestureActive {
+            switch type {
+            case .mouseMoved, .leftMouseDragged, .rightMouseDragged,
+                 .otherMouseDragged, .scrollWheel:
+                return Unmanaged.passUnretained(event)
+            default:
+                break
+            }
         }
 
         guard let nsEvent = NSEvent(cgEvent: event) else {

@@ -94,20 +94,11 @@ Assign any of these actions to any edge.
 
 ## 📦 Installation
 
-### Option A: Homebrew (Recommended)
+### Homebrew (Recommended)
 The easiest way to install and keep EdgePad updated.
 ```bash
 brew install --cask X377AAHIL/edgepad/edgepad
 ```
-
-### Option B: Manual Download
-1. Download the latest **[`EdgePad.dmg`](https://github.com/X377AAHIL/EdgePad/releases/latest)**.
-2. Open the DMG and drag **EdgePad** to your `Applications` folder.
-3. *Note: Since EdgePad is not yet notarized by Apple, you must run this command in Terminal before launching:*
-   ```bash
-   xattr -cr /Applications/EdgePad.app
-   ```
-4. Launch EdgePad from Applications and grant the requested permissions.
 
 <details>
 <summary><b>🛠️ Build from Source</b></summary>
@@ -134,18 +125,9 @@ EdgePad requires specific system permissions to intercept trackpad touches and c
 
 ## 🧹 Uninstallation
 
-macOS does not automatically clean up app data when you drag an app to the Trash. To completely remove EdgePad:
-
-**Via Homebrew:**
 ```bash
 brew uninstall --cask edgepad
 ```
-
-**Via In-App Uninstaller (Recommended):**
-1. Click the EdgePad Menu Bar icon.
-2. Hold the `Option (⌥)` key.
-3. Select **Uninstall EdgePad...**
-*(This completely removes all preferences, login items, permissions, and deletes the app).*
 
 <br/>
 

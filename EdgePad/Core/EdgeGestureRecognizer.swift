@@ -35,11 +35,13 @@ final class EdgeGestureRecognizer {
     private var tracks: [ObjectIdentifier: Track] = [:]
 
     private func startRepeatTimer() {
-        repeatTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.handleRepeat()
             }
         }
+        timer.tolerance = 0.02
+        repeatTimer = timer
     }
 
     private func stopRepeatTimer() {

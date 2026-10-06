@@ -18,7 +18,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // This is critical for a menu-bar utility that must monitor trackpad
         // events indefinitely.
         activityToken = ProcessInfo.processInfo.beginActivity(
-            options: [.userInitiatedAllowingIdleSystemSleep, .latencyCritical],
+            options: .userInitiatedAllowingIdleSystemSleep,
             reason: "EdgePad must remain active to monitor trackpad edge gestures"
         )
         
@@ -132,11 +132,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// If macOS silently disabled it (e.g. tapDisabledByTimeout that
     /// the CGEvent callback didn't catch), we restart it.
     private func startHeartbeat() {
-        heartbeatTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+        let timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.verifyTapAlive()
             }
         }
+        timer.tolerance = 5
+        heartbeatTimer = timer
     }
 
     private func verifyTapAlive() {
@@ -174,6 +176,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return false
         }
         recognizer.process(touches: touches)
+        tap?.isGestureActive = recognizer.hasActiveGesture
         return false
     }
 

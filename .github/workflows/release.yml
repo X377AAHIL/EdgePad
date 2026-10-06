@@ -36,49 +36,54 @@ jobs:
           APP_PATH=$(find build -name "EdgePad.app" -type d | head -1)
           echo "APP_PATH=$APP_PATH" >> "$GITHUB_OUTPUT"
 
+      - name: Create ZIP
+        run: |
+          cd "$(dirname "${{ steps.app.outputs.APP_PATH }}")"
+          zip -r -y "$GITHUB_WORKSPACE/EdgePad-${{ steps.version.outputs.VERSION }}.zip" EdgePad.app
+
       - name: Create DMG
         run: |
-          # Create a temporary folder for DMG contents
           mkdir -p dmg-content
           cp -R "${{ steps.app.outputs.APP_PATH }}" dmg-content/
 
-          # Create a symlink to /Applications for drag-and-drop install
-          ln -s /Applications dmg-content/Applications
-
-          # Build the DMG
           hdiutil create -volname "EdgePad" \
             -srcfolder dmg-content \
             -ov -format UDZO \
             "EdgePad-${{ steps.version.outputs.VERSION }}.dmg"
 
-      - name: Compute SHA256
+      - name: Compute checksums
         id: sha
         run: |
-          SHA=$(shasum -a 256 "EdgePad-${{ steps.version.outputs.VERSION }}.dmg" | awk '{print $1}')
-          echo "SHA256=$SHA" >> "$GITHUB_OUTPUT"
-          echo "### DMG SHA256" >> "$GITHUB_STEP_SUMMARY"
+          ZIP_SHA=$(shasum -a 256 "EdgePad-${{ steps.version.outputs.VERSION }}.zip" | awk '{print $1}')
+          DMG_SHA=$(shasum -a 256 "EdgePad-${{ steps.version.outputs.VERSION }}.dmg" | awk '{print $1}')
+          echo "ZIP_SHA256=$ZIP_SHA" >> "$GITHUB_OUTPUT"
+          echo "DMG_SHA256=$DMG_SHA" >> "$GITHUB_OUTPUT"
+          echo "### Checksums" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-          echo "$SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "ZIP: $ZIP_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "DMG: $DMG_SHA" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: "EdgePad-${{ steps.version.outputs.VERSION }}.dmg"
+          files: |
+            EdgePad-${{ steps.version.outputs.VERSION }}.zip
+            EdgePad-${{ steps.version.outputs.VERSION }}.dmg
           generate_release_notes: true
           body: |
-            ## Install via Homebrew
+            ## Install via Homebrew (Recommended)
             ```bash
             brew install --cask X377AAHIL/edgepad/edgepad
             ```
 
-            ## Manual Install
-            Download `EdgePad-${{ steps.version.outputs.VERSION }}.dmg` below, then:
-            ```bash
-            xattr -cr /Applications/EdgePad.app
-            ```
+            ## Direct Download
+            Download `EdgePad-${{ steps.version.outputs.VERSION }}.dmg` below.
 
-            **SHA256:** `${{ steps.sha.outputs.SHA256 }}`
+            | File | SHA256 |
+            |------|--------|
+            | ZIP | `${{ steps.sha.outputs.ZIP_SHA256 }}` |
+            | DMG | `${{ steps.sha.outputs.DMG_SHA256 }}` |
 
       - name: Update Homebrew Cask
         uses: peter-evans/repository-dispatch@v3
@@ -89,5 +94,6 @@ jobs:
           client-payload: |
             {
               "version": "${{ steps.version.outputs.VERSION }}",
-              "sha256": "${{ steps.sha.outputs.SHA256 }}"
+              "sha256": "${{ steps.sha.outputs.ZIP_SHA256 }}"
             }
+

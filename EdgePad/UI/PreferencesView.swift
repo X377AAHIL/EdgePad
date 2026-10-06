@@ -101,26 +101,7 @@ struct PreferencesView: View {
 
                     Spacer()
 
-                    Button {
-                        uninstallApp()
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: "trash")
-                                .font(.system(size: 10, weight: .medium))
-                            Text("Uninstall")
-                                .font(.system(size: 11, weight: .medium, design: .rounded))
-                        }
-                        .foregroundStyle(.red.opacity(0.9))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(
-                            Capsule()
-                                .fill(Color.red.opacity(0.15))
-                        )
-                        .contentShape(Capsule())
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.trailing, 4)
+
 
                     Button {
                         NSApplication.shared.terminate(nil)
@@ -184,55 +165,7 @@ struct PreferencesView: View {
         }
     }
 
-    // MARK: - Uninstallation Logic
-    
-    private func uninstallApp() {
-        let alert = NSAlert()
-        alert.messageText = "Uninstall EdgePad?"
-        alert.informativeText = "This will permanently remove all preferences, login items, system permissions, and move the app to the Trash. The application will quit immediately."
-        alert.alertStyle = .warning
-        alert.addButton(withTitle: "Uninstall")
-        alert.addButton(withTitle: "Cancel")
-        
-        // Show the modal explicitly
-        NSApp.activate(ignoringOtherApps: true)
-        if alert.runModal() == .alertFirstButtonReturn {
-            
-            // 1. Unregister login item
-            try? SMAppService.mainApp.unregister()
-            
-            // 2. Reset permissions
-            let resetAccessibility = Process()
-            resetAccessibility.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
-            resetAccessibility.arguments = ["reset", "Accessibility", "com.aahilshaaravg.EdgePad"]
-            try? resetAccessibility.run()
-            
-            let resetListenEvent = Process()
-            resetListenEvent.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
-            resetListenEvent.arguments = ["reset", "ListenEvent", "com.aahilshaaravg.EdgePad"]
-            try? resetListenEvent.run()
-            
-            // 3. Remove preferences and app support
-            let fm = FileManager.default
-            if let prefsURL = fm.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("Preferences/com.aahilshaaravg.EdgePad.plist") {
-                try? fm.removeItem(at: prefsURL)
-            }
-            if let supportURL = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("EdgePad") {
-                try? fm.removeItem(at: supportURL)
-            }
-            
-            // 4. Move app to trash and quit
-            let appPath = Bundle.main.bundlePath
-            let script = "sleep 1 && osascript -e 'tell application \"Finder\" to delete POSIX file \"\(appPath)\"'"
-            
-            let process = Process()
-            process.executableURL = URL(fileURLWithPath: "/bin/bash")
-            process.arguments = ["-c", script]
-            try? process.run()
-            
-            NSApplication.shared.terminate(nil)
-        }
-    }
+
 }
 
 extension Notification.Name {
