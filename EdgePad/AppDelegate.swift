@@ -8,7 +8,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let recognizer = EdgeGestureRecognizer()
     private var tap: GestureEventTap?
     private var appProfiles: AppProfilesConfiguration = .default
-    private var activityToken: NSObjectProtocol?
+
     private var heartbeatTimer: Timer?
     private let log = Logger(subsystem: "com.aahilshaaravg.EdgePad", category: "Background")
     
@@ -19,15 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupMenuBar()
         
-        // Use .userInitiatedAllowingIdleSystemSleep to prevent App Nap from
-        // suspending the process while still allowing the display to sleep.
-        // This is critical for a menu-bar utility that must monitor trackpad
-        // events indefinitely.
-        activityToken = ProcessInfo.processInfo.beginActivity(
-            options: .userInitiatedAllowingIdleSystemSleep,
-            reason: "EdgePad must remain active to monitor trackpad edge gestures"
-        )
-        
+
         appProfiles = ConfigurationStore.shared.load()
         updateActiveProfile()
         recognizer.onStep = { [weak self] edge, direction in
@@ -108,9 +100,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         heartbeatTimer?.invalidate()
         heartbeatTimer = nil
         tap?.stop()
-        if let token = activityToken {
-            ProcessInfo.processInfo.endActivity(token)
-        }
     }
 
     private func startTap() {
