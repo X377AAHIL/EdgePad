@@ -284,8 +284,15 @@ still do not register, also add it under Input Monitoring.
 
 extension AppDelegate: NSPopoverDelegate {
     func popoverDidClose(_ notification: Notification) {
-        // Nuke the view hierarchy to instantly reclaim ~20MB of RAM
-        popover?.contentViewController = nil
+        // We MUST asynchronously tear down the view hierarchy.
+        // Niling out the popover synchronously during its own `popoverDidClose`
+        // callback interrupts its internal teardown process, causing the invisible 
+        // SwiftUI window to leak and burn CPU infinitely in the background.
+        let popoverToRelease = popover
         popover = nil
+        
+        DispatchQueue.main.async {
+            popoverToRelease?.contentViewController = nil
+        }
     }
 }
