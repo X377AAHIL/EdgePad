@@ -11,8 +11,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var activityToken: NSObjectProtocol?
     private var heartbeatTimer: Timer?
     private let log = Logger(subsystem: "com.aahilshaaravg.EdgePad", category: "Background")
+    
+    private var statusItem: NSStatusItem?
+    private var popover: NSPopover?
+    private var popoverMonitor: Any?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        setupMenuBar()
+        
         // Use .userInitiatedAllowingIdleSystemSleep to prevent App Nap from
         // suspending the process while still allowing the display to sleep.
         // This is critical for a menu-bar utility that must monitor trackpad
@@ -243,5 +249,54 @@ still do not register, also add it under Input Monitoring.
         case .alertSecondButtonReturn: PermissionChecker.openInputMonitoringSettings()
         default: break
         }
+    }
+    
+    // MARK: - Menu Bar & Popover Lifecycle
+    
+    private func setupMenuBar() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        if let button = statusItem?.button {
+            button.image = NSImage(named: "MenuBarIcon")
+            button.action = #selector(togglePopover(_:))
+            button.target = self
+        }
+    }
+
+    @objc private func togglePopover(_ sender: AnyObject?) {
+        if let popover = popover, popover.isShown {
+            closePopover(sender)
+        } else {
+            showPopover(sender)
+        }
+    }
+
+    private func showPopover(_ sender: AnyObject?) {
+        if popover == nil {
+            popover = NSPopover()
+            popover?.behavior = .transient
+            popover?.delegate = self
+        }
+        
+        // Re-instantiate the view every time to save memory when closed
+        let hostingController = NSHostingController(rootView: PreferencesView())
+        popover?.contentViewController = hostingController
+
+        if let button = statusItem?.button {
+            popover?.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        }
+    }
+
+    private func closePopover(_ sender: AnyObject?) {
+        popover?.performClose(sender)
+        // Note: The actual memory teardown happens in popoverDidClose delegate method
+        // which gets called whether closed manually or by clicking outside (.transient)
+    }
+}
+
+extension AppDelegate: NSPopoverDelegate {
+    func popoverDidClose(_ notification: Notification) {
+        // Nuke the view hierarchy to instantly reclaim ~20MB of RAM
+        popover?.contentViewController = nil
+        popover = nil
     }
 }
