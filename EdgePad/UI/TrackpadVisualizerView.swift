@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TrackpadVisualizerView: View {
     let configuration: EdgeConfiguration
-    let selectedEdge: TrackpadEdge?
+    @Binding var selectedEdge: TrackpadEdge?
 
     // Compact dimensions that fit within the 320px popover
     private let trackpadWidth: CGFloat = 200
@@ -77,6 +77,42 @@ struct TrackpadVisualizerView: View {
             if let edge = selectedEdge {
                 selectedEdgeGlow(edge)
             }
+
+            // 4. Clickable Interaction Zones
+            GeometryReader { geo in
+                let rect = CGRect(
+                    x: (geo.size.width - trackpadWidth) / 2,
+                    y: (geo.size.height - trackpadHeight) / 2,
+                    width: trackpadWidth,
+                    height: trackpadHeight
+                )
+                let clipPath = Path(roundedRect: rect, cornerRadius: cornerRadius, style: .continuous)
+                
+                ForEach(TrackpadEdge.allCases, id: \.self) { edge in
+                    let thickness = configuration.bindings[edge]?.bandThickness ?? 0.1
+                    
+                    Path { path in
+                        switch edge {
+                        case .top:
+                            path.addRect(CGRect(x: rect.minX, y: rect.minY, width: rect.width, height: rect.height * thickness))
+                        case .bottom:
+                            let h = rect.height * thickness
+                            path.addRect(CGRect(x: rect.minX, y: rect.maxY - h, width: rect.width, height: h))
+                        case .left:
+                            path.addRect(CGRect(x: rect.minX, y: rect.minY, width: rect.width * thickness, height: rect.height))
+                        case .right:
+                            let w = rect.width * thickness
+                            path.addRect(CGRect(x: rect.maxX - w, y: rect.minY, width: w, height: rect.height))
+                        }
+                    }
+                    .fill(Color.black.opacity(0.001))
+                    .clipShape(clipPath) // Clip to trackpad rounded corners so clicks outside corners don't trigger
+                    .onTapGesture {
+                        selectedEdge = edge
+                    }
+                }
+            }
+            .frame(width: trackpadWidth + 20, height: trackpadHeight + 20)
         }
         .frame(height: trackpadHeight + 24)
         .frame(maxWidth: .infinity)

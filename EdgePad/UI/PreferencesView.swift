@@ -53,7 +53,7 @@ struct PreferencesView: View {
                     .transition(.opacity)
                     .padding(.horizontal, 16)
                     
-                TrackpadVisualizerView(configuration: activeConfig, selectedEdge: edge)
+                TrackpadVisualizerView(configuration: activeConfig, selectedEdge: $selectedEdge)
                     .padding(.horizontal, 16)
                 
                 // Footer: Launch at Login and Quit button
