@@ -97,7 +97,7 @@ Assign any of these actions to any edge.
 ### Homebrew (Recommended)
 The easiest way to install and keep EdgePad updated.
 ```bash
-brew install --cask --no-quarantine X377AAHIL/edgepad/edgepad
+brew install --cask X377AAHIL/edgepad/edgepad
 ```
 
 <details>
