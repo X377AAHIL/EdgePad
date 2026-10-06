@@ -273,6 +273,16 @@ still do not register, also add it under Input Monitoring.
         if let button = statusItem?.button {
             popover?.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
+
+        // macOS doesn't always automatically close transient popovers when clicking
+        // other menubar items. We must enforce it with a global monitor.
+        if popoverMonitor == nil {
+            popoverMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+                if let popover = self?.popover, popover.isShown {
+                    self?.closePopover(nil)
+                }
+            }
+        }
     }
 
     private func closePopover(_ sender: AnyObject?) {
@@ -284,6 +294,11 @@ still do not register, also add it under Input Monitoring.
 
 extension AppDelegate: NSPopoverDelegate {
     func popoverDidClose(_ notification: Notification) {
+        if let monitor = popoverMonitor {
+            NSEvent.removeMonitor(monitor)
+            popoverMonitor = nil
+        }
+
         // We MUST asynchronously tear down the view hierarchy.
         // Niling out the popover synchronously during its own `popoverDidClose`
         // callback interrupts its internal teardown process, causing the invisible 
