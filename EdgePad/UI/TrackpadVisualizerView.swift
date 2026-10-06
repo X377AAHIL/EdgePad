@@ -20,67 +20,7 @@ struct TrackpadVisualizerView: View {
                 )
                 .frame(width: trackpadWidth, height: trackpadHeight)
 
-            // 2. Edge hitboxes — drawn INSIDE the chassis and clipped to it
-            Canvas { context, size in
-                let rect = CGRect(
-                    x: (size.width - trackpadWidth) / 2,
-                    y: (size.height - trackpadHeight) / 2,
-                    width: trackpadWidth,
-                    height: trackpadHeight
-                )
-                let clipPath = Path(roundedRect: rect, cornerRadius: cornerRadius, style: .continuous)
-
-                // Draw each edge hitbox
-                for edge in TrackpadEdge.allCases {
-                    let isSelected = edge == selectedEdge
-                    let binding = configuration.bindings[edge]
-                    let thickness = binding?.bandThickness ?? 0.1
-
-                    let edgeRect: CGRect = {
-                        switch edge {
-                        case .top:
-                            return CGRect(x: rect.minX, y: rect.minY,
-                                          width: rect.width, height: rect.height * thickness)
-                        case .bottom:
-                            let h = rect.height * thickness
-                            return CGRect(x: rect.minX, y: rect.maxY - h,
-                                          width: rect.width, height: h)
-                        case .left:
-                            return CGRect(x: rect.minX, y: rect.minY,
-                                          width: rect.width * thickness, height: rect.height)
-                        case .right:
-                            let w = rect.width * thickness
-                            return CGRect(x: rect.maxX - w, y: rect.minY,
-                                          width: w, height: rect.height)
-                        }
-                    }()
-
-                    // Clip to the rounded trackpad shape
-                    context.clipToLayer { ctx in
-                        ctx.fill(clipPath, with: .color(.white))
-                    }
-
-                    let color: Color = isSelected
-                        ? GlassColors.accentCyan.opacity(0.45)
-                        : Color.white.opacity(0.04)
-
-                    context.fill(Path(edgeRect), with: .color(color))
-
-                    // Reset clip for next iteration
-                    context.clip(to: Path(CGRect(origin: .zero, size: size)))
-                }
-            }
-            .frame(width: trackpadWidth + 20, height: trackpadHeight + 20)
-            .allowsHitTesting(false)
-
-            // 3. Selected edge glow border (drawn on top for polish)
-            if let edge = selectedEdge {
-                selectedEdgeGlow(edge)
-                    .id(edge)
-                    .transition(.opacity)
-            }
-
-            // 4. Clickable Interaction Zones
+            // 2. Edge hitboxes with smooth color fading & interaction
             GeometryReader { geo in
                 let rect = CGRect(
                     x: (geo.size.width - trackpadWidth) / 2,
@@ -91,6 +31,7 @@ struct TrackpadVisualizerView: View {
                 let clipPath = Path(roundedRect: rect, cornerRadius: cornerRadius, style: .continuous)
                 
                 ForEach(TrackpadEdge.allCases, id: \.self) { edge in
+                    let isSelected = edge == selectedEdge
                     let thickness = configuration.bindings[edge]?.bandThickness ?? 0.1
                     
                     Path { path in
@@ -107,14 +48,21 @@ struct TrackpadVisualizerView: View {
                             path.addRect(CGRect(x: rect.maxX - w, y: rect.minY, width: w, height: rect.height))
                         }
                     }
-                    .fill(Color.black.opacity(0.001))
-                    .clipShape(clipPath) // Clip to trackpad rounded corners so clicks outside corners don't trigger
+                    .fill(isSelected ? GlassColors.accentCyan.opacity(0.45) : Color.white.opacity(0.04))
+                    .clipShape(clipPath)
                     .onTapGesture {
-                        selectedEdge = edge
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            selectedEdge = edge
+                        }
                     }
                 }
             }
             .frame(width: trackpadWidth + 20, height: trackpadHeight + 20)
+
+            // 3. Selected edge glow border (drawn on top for polish)
+            if let edge = selectedEdge {
+                selectedEdgeGlow(edge)
+            }
         }
         .frame(height: trackpadHeight + 24)
         .frame(maxWidth: .infinity)
