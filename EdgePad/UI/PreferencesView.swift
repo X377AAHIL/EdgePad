@@ -58,11 +58,16 @@ struct PreferencesView: View {
                 
                 // Footer: Launch at Login and Quit button
                 HStack {
-                    Toggle("Launch at Login", isOn: $launchAtLogin)
-                        .toggleStyle(.switch)
-                        .font(.system(size: 11, weight: .medium, design: .rounded))
-                        .foregroundStyle(GlassColors.textSecondary)
-                        .tint(Color.accentColor.opacity(0.8))
+                    HStack(spacing: 8) {
+                        Toggle("", isOn: $launchAtLogin)
+                            .toggleStyle(.switch)
+                            .labelsHidden()
+                            .tint(Color.accentColor.opacity(0.8))
+                        
+                        Text("Launch at Login")
+                            .font(.system(size: 11, weight: .medium, design: .rounded))
+                            .foregroundStyle(GlassColors.textSecondary)
+                    }
                     .onChange(of: launchAtLogin) { _, newValue in
                         do {
                             if newValue {
