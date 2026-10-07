@@ -22,18 +22,7 @@ struct PreferencesView: View {
         }
         // Let the mainContent frame (width 320) dictate the size, but allow some height for the topBar
         .frame(width: 320)
-        .background {
-            LinearGradient(
-                colors: [
-                    Color.white.opacity(0.05),
-                    Color.clear
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .glassEffectWithFallback(tint: Color.black.opacity(0.3), isInteractive: true)
-            .ignoresSafeArea()
-        }
+        .background(Color.black.opacity(0.01))
         .preferredColorScheme(.dark)
         .onAppear {
             configuration = ConfigurationStore.shared.load()
