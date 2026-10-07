@@ -48,7 +48,7 @@ struct TrackpadVisualizerView: View {
                             path.addRect(CGRect(x: rect.maxX - w, y: rect.minY, width: w, height: rect.height))
                         }
                     }
-                    .fill(isSelected ? GlassColors.accentCyan.opacity(0.45) : Color.white.opacity(0.04))
+                    .fill(isSelected ? AppColors.accentCyan.opacity(0.45) : Color.white.opacity(0.04))
                     .clipShape(clipPath)
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.3)) {
@@ -80,8 +80,8 @@ struct TrackpadVisualizerView: View {
             .frame(width: trackpadWidth, height: trackpadHeight)
             .overlay(alignment: edgeAlignment(edge)) {
                 Capsule()
-                    .fill(GlassColors.accentCyan.opacity(0.8))
-                    .shadow(color: GlassColors.accentCyan.opacity(0.6), radius: 8)
+                    .fill(AppColors.accentCyan.opacity(0.8))
+                    .shadow(color: AppColors.accentCyan.opacity(0.6), radius: 8)
                     .frame(
                         width: edge == .left || edge == .right ? glowThickness : trackpadWidth * 0.6,
                         height: edge == .top || edge == .bottom ? glowThickness : trackpadHeight * 0.6

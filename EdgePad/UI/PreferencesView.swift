@@ -66,7 +66,7 @@ struct PreferencesView: View {
                         
                         Text("Launch at Login")
                             .font(.system(size: 11, weight: .medium, design: .rounded))
-                            .foregroundStyle(GlassColors.textSecondary)
+                            .foregroundStyle(AppColors.textSecondary)
                     }
                     .onChange(of: launchAtLogin) { _, newValue in
                         do {
@@ -94,7 +94,7 @@ struct PreferencesView: View {
                             Text("Quit")
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
                         }
-                        .foregroundStyle(GlassColors.textSecondary)
+                        .foregroundStyle(AppColors.textSecondary)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
                         .background(
@@ -196,7 +196,7 @@ struct CustomSegmentedControl: View {
                     ForEach(options, id: \.self) { option in
                         Text(option.rawValue.capitalized)
                             .font(.system(size: 13, weight: .medium, design: .rounded))
-                            .foregroundColor(selection == option ? GlassColors.textPrimary : GlassColors.textSecondary)
+                            .foregroundColor(selection == option ? AppColors.textPrimary : AppColors.textSecondary)
                             .frame(width: segmentWidth, height: geometry.size.height)
                             .contentShape(Rectangle()) // Make the whole area tappable
                             .onTapGesture {

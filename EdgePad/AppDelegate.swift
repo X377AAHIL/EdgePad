@@ -272,6 +272,10 @@ still do not register, also add it under Input Monitoring.
 
         if let button = statusItem?.button {
             popover?.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            
+            // Force the app and popover to become active immediately
+            NSApp.activate(ignoringOtherApps: true)
+            popover?.contentViewController?.view.window?.makeKey()
         }
 
         // macOS doesn't always automatically close transient popovers when clicking

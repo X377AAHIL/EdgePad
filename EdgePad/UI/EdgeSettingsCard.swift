@@ -14,11 +14,11 @@ struct EdgeSettingsCard: View {
             HStack {
                 Image(systemName: binding.action.systemImage)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(GlassColors.accentCyan)
+                    .foregroundStyle(AppColors.accentCyan)
 
                 Text(edge.displayName)
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
-                    .foregroundStyle(GlassColors.textPrimary)
+                    .foregroundStyle(AppColors.textPrimary)
 
                 Spacer()
             }
@@ -29,7 +29,7 @@ struct EdgeSettingsCard: View {
             HStack {
                 Text("Action")
                     .font(.system(size: 11, design: .rounded))
-                    .foregroundStyle(GlassColors.textSecondary)
+                    .foregroundStyle(AppColors.textSecondary)
                 Spacer()
                 Picker("", selection: $binding.action) {
                     ForEach(EdgeAction.allCases) { action in
@@ -44,13 +44,13 @@ struct EdgeSettingsCard: View {
             HStack {
                 Text("Fingers")
                     .font(.system(size: 11, design: .rounded))
-                    .foregroundStyle(GlassColors.textSecondary)
+                    .foregroundStyle(AppColors.textSecondary)
                 Spacer()
                 HStack(spacing: 6) {
                     ForEach(1...2, id: \.self) { count in
                         Button {
                             // Only animate if reduced motion is off, or use a much subtler one
-                            withAnimation(GlassAnimation.hoverScale) {
+                            withAnimation(AppAnimation.hoverScale) {
                                 binding.requiredTouchCount = count
                             }
                         } label: {
@@ -64,14 +64,14 @@ struct EdgeSettingsCard: View {
                             .background(
                                 RoundedRectangle(cornerRadius: 6)
                                     .fill(binding.requiredTouchCount == count
-                                          ? GlassColors.accentCyan.opacity(0.3)
+                                          ? AppColors.accentCyan.opacity(0.3)
                                           : Color.white.opacity(0.05))
                             )
                             .overlay(
                                 RoundedRectangle(cornerRadius: 6)
                                     .strokeBorder(
                                         binding.requiredTouchCount == count
-                                        ? GlassColors.accentCyan.opacity(0.5)
+                                        ? AppColors.accentCyan.opacity(0.5)
                                         : Color.white.opacity(0.1),
                                         lineWidth: 0.5
                                     )
@@ -80,8 +80,8 @@ struct EdgeSettingsCard: View {
                         .buttonStyle(.plain)
                         .foregroundStyle(
                             binding.requiredTouchCount == count
-                            ? GlassColors.accentCyan
-                            : GlassColors.textSecondary
+                            ? AppColors.accentCyan
+                            : AppColors.textSecondary
                         )
                         .accessibilityLabel("\(count) finger\(count > 1 ? "s" : "")")
                         .accessibilityAddTraits(binding.requiredTouchCount == count ? .isSelected : [])
@@ -103,13 +103,13 @@ struct EdgeSettingsCard: View {
                 }
                 .toggleStyle(.checkbox)
             }
-            .foregroundStyle(GlassColors.textSecondary)
+            .foregroundStyle(AppColors.textSecondary)
 
             // Invert Toggle
             Toggle(isOn: $binding.inverted) {
                 Text("Invert direction")
                     .font(.system(size: 10, weight: .medium, design: .rounded))
-                    .foregroundStyle(GlassColors.textSecondary)
+                    .foregroundStyle(AppColors.textSecondary)
             }
             .toggleStyle(.checkbox)
 
@@ -120,7 +120,7 @@ struct EdgeSettingsCard: View {
                 HStack {
                     Text("Sensitivity")
                         .font(.system(size: 11, design: .rounded))
-                        .foregroundStyle(GlassColors.textSecondary)
+                        .foregroundStyle(AppColors.textSecondary)
                     Spacer()
                     Button {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
@@ -129,7 +129,7 @@ struct EdgeSettingsCard: View {
                     } label: {
                         Image(systemName: "arrow.counterclockwise")
                             .font(.system(size: 10, weight: .bold))
-                            .foregroundStyle(binding.stepDistance == defaultBinding.stepDistance ? Color.white.opacity(0.1) : GlassColors.textSecondary)
+                            .foregroundStyle(binding.stepDistance == defaultBinding.stepDistance ? Color.white.opacity(0.1) : AppColors.textSecondary)
                     }
                     .buttonStyle(.plain)
                     .disabled(binding.stepDistance == defaultBinding.stepDistance)
@@ -137,11 +137,11 @@ struct EdgeSettingsCard: View {
                     
                     Text(String(format: "%.3f", binding.stepDistance))
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundStyle(GlassColors.accentCyan.opacity(0.7))
+                        .foregroundStyle(AppColors.accentCyan.opacity(0.7))
                         .frame(width: 40, alignment: .trailing)
                 }
                 Slider(value: $binding.stepDistance, in: 0.01...0.20)
-                    .tint(GlassColors.accentCyan)
+                    .tint(AppColors.accentCyan)
             }
 
             // Edge Hitbox Width
@@ -149,7 +149,7 @@ struct EdgeSettingsCard: View {
                 HStack {
                     Text("Edge Width")
                         .font(.system(size: 11, design: .rounded))
-                        .foregroundStyle(GlassColors.textSecondary)
+                        .foregroundStyle(AppColors.textSecondary)
                     Spacer()
                     Button {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
@@ -158,7 +158,7 @@ struct EdgeSettingsCard: View {
                     } label: {
                         Image(systemName: "arrow.counterclockwise")
                             .font(.system(size: 10, weight: .bold))
-                            .foregroundStyle(binding.bandThickness == defaultBinding.bandThickness ? Color.white.opacity(0.1) : GlassColors.textSecondary)
+                            .foregroundStyle(binding.bandThickness == defaultBinding.bandThickness ? Color.white.opacity(0.1) : AppColors.textSecondary)
                     }
                     .buttonStyle(.plain)
                     .disabled(binding.bandThickness == defaultBinding.bandThickness)
@@ -166,11 +166,11 @@ struct EdgeSettingsCard: View {
                     
                     Text("\(Int(binding.bandThickness * 100))%")
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundStyle(GlassColors.accentCyan.opacity(0.7))
+                        .foregroundStyle(AppColors.accentCyan.opacity(0.7))
                         .frame(width: 40, alignment: .trailing)
                 }
                 Slider(value: $binding.bandThickness, in: 0.02...0.35)
-                    .tint(GlassColors.accentCyan)
+                    .tint(AppColors.accentCyan)
             }
 
             // Dwell Time
@@ -178,7 +178,7 @@ struct EdgeSettingsCard: View {
                 HStack {
                     Text("Dwell Time")
                         .font(.system(size: 11, design: .rounded))
-                        .foregroundStyle(GlassColors.textSecondary)
+                        .foregroundStyle(AppColors.textSecondary)
                     Spacer()
                     Button {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
@@ -187,7 +187,7 @@ struct EdgeSettingsCard: View {
                     } label: {
                         Image(systemName: "arrow.counterclockwise")
                             .font(.system(size: 10, weight: .bold))
-                            .foregroundStyle(binding.minimumDwell == defaultBinding.minimumDwell ? Color.white.opacity(0.1) : GlassColors.textSecondary)
+                            .foregroundStyle(binding.minimumDwell == defaultBinding.minimumDwell ? Color.white.opacity(0.1) : AppColors.textSecondary)
                     }
                     .buttonStyle(.plain)
                     .disabled(binding.minimumDwell == defaultBinding.minimumDwell)
@@ -195,11 +195,11 @@ struct EdgeSettingsCard: View {
                     
                     Text("\(Int(binding.minimumDwell * 1000)) ms")
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundStyle(GlassColors.accentCyan.opacity(0.7))
+                        .foregroundStyle(AppColors.accentCyan.opacity(0.7))
                         .frame(width: 40, alignment: .trailing)
                 }
                 Slider(value: $binding.minimumDwell, in: 0...0.5)
-                    .tint(GlassColors.accentCyan)
+                    .tint(AppColors.accentCyan)
             }
         }
         .frame(maxWidth: .infinity)
