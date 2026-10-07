@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E00000000000000000000001 /* EdgePadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000101 /* EdgePadApp.swift */; };
 		E00000000000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000102 /* AppDelegate.swift */; };
-		E00000000000000000000016 /* GlassStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000153 /* GlassStyles.swift */; };
+		E00000000000000000000016 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000153 /* UIConstants.swift */; };
 		E00000000000000000000018 /* EdgeSettingsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000155 /* EdgeSettingsCard.swift */; };
 		E00000000000000000000019 /* TrackpadVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000156 /* TrackpadVisualizerView.swift */; };
 		E00000000000000000000004 /* TrackpadEdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000111 /* TrackpadEdge.swift */; };
@@ -34,7 +34,7 @@
 /* Begin PBXFileReference section */
 		E00000000000000000000101 /* EdgePadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgePadApp.swift; sourceTree = "<group>"; };
 		E00000000000000000000102 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E00000000000000000000153 /* GlassStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassStyles.swift; sourceTree = "<group>"; };
+		E00000000000000000000153 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		E00000000000000000000155 /* EdgeSettingsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeSettingsCard.swift; sourceTree = "<group>"; };
 		E00000000000000000000156 /* TrackpadVisualizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackpadVisualizerView.swift; sourceTree = "<group>"; };
 		E00000000000000000000104 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				E00000000000000000000152 /* PreferencesView.swift */,
-				E00000000000000000000153 /* GlassStyles.swift */,
+				E00000000000000000000153 /* UIConstants.swift */,
 				E00000000000000000000155 /* EdgeSettingsCard.swift */,
 				E00000000000000000000156 /* TrackpadVisualizerView.swift */,
 			);
@@ -240,7 +240,7 @@
 			files = (
 				E00000000000000000000001 /* EdgePadApp.swift in Sources */,
 				E00000000000000000000002 /* AppDelegate.swift in Sources */,
-				E00000000000000000000016 /* GlassStyles.swift in Sources */,
+				E00000000000000000000016 /* UIConstants.swift in Sources */,
 				E00000000000000000000018 /* EdgeSettingsCard.swift in Sources */,
 				E00000000000000000000019 /* TrackpadVisualizerView.swift in Sources */,
 				E00000000000000000000004 /* TrackpadEdge.swift in Sources */,
