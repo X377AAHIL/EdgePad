@@ -206,20 +206,18 @@ struct EdgeSettingsCard: View {
         .padding(12)
         .background {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color.white.opacity(0.02))
-                .glassEffectWithFallback(tint: GlassColors.accentCyan.opacity(0.03), isInteractive: false)
+                .fill(Color.white.opacity(0.05))
                 .overlay(
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .strokeBorder(
                             LinearGradient(
-                                colors: [Color.white.opacity(0.3), Color.white.opacity(0.05)],
+                                colors: [Color.white.opacity(0.2), Color.white.opacity(0.04)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ),
                             lineWidth: 0.5
                         )
                 )
-                .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: 4)
         }
     }
 }

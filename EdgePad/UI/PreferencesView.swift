@@ -180,17 +180,15 @@ struct CustomSegmentedControl: View {
                             .strokeBorder(Color.white.opacity(0.1), lineWidth: 0.5)
                     )
                 
-                // Active Liquid Glass Indicator
+                // Active Indicator
                 Capsule()
-                    .fill(Color.white.opacity(0.1))
-                    .glassEffectWithFallback()
+                    .fill(Color.white.opacity(0.15))
                     .overlay(
                         Capsule()
                             .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
                     )
                     .frame(width: segmentWidth - 4, height: geometry.size.height - 4)
-                    .offset(x: currentX + 2) // +2 to account for padding inside track
-                    // Add smooth spring animation ONLY when not actively dragging
+                    .offset(x: currentX + 2)
                     .animation(isDragging ? .interactiveSpring() : .spring(response: 0.4, dampingFraction: 0.7), value: currentX)
                 
                 // Text Labels
