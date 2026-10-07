@@ -264,7 +264,6 @@ still do not register, also add it under Input Monitoring.
             popover = NSPopover()
             popover?.behavior = .transient
             popover?.delegate = self
-            popover?.appearance = NSAppearance(named: .vibrantDark)
         }
         
         // Re-instantiate the view every time to save memory when closed
